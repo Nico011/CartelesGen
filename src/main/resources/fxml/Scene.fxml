@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.letrerosgen.FXMLController">
+    <children>
+      <BorderPane prefHeight="200.0" prefWidth="400.0">
+         <center>
+              <Button id="btn" fx:id="button" alignment="CENTER" contentDisplay="CENTER" onAction="#handleButtonAction" text="Abrir Documento..." BorderPane.alignment="CENTER" />
+         </center>
+         <top>
+            <VBox prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label id="cabecera" fx:id="cabecera" text="Seleccione el archivo Excel para comenzar:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="aviso" text="(Asegúrese de guardar y cerrar" />
+                  <Label text="la planilla antes de empezar)" />
+               </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+               <padding>
+                  <Insets left="10.0" top="20.0" />
+               </padding>
+            </VBox>
+         </top>
+         <bottom>
+            <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" minWidth="400.0" BorderPane.alignment="CENTER">
+               <children>
+                    <Label id="mensaje" fx:id="mensaje" alignment="CENTER" contentDisplay="CENTER" minHeight="16" minWidth="69" />
+                  <Label fx:id="guardadoEn" />
+                  <Label fx:id="pathLbl">
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding></Label>
+               </children>
+            </VBox>
+         </bottom>
+      </BorderPane>
+    </children>
+</AnchorPane>
