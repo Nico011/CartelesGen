@@ -141,6 +141,7 @@ public class FXMLController implements Initializable
         doc = new Document(pdfdoc, PageSize.LETTER.rotate());
         
         
+        
         //System.out.println("pdf creado");
         
         String XLSX_FILE_PATH = path;
@@ -210,10 +211,12 @@ public class FXMLController implements Initializable
                 
                 
                 PdfCanvas canvas = new PdfCanvas(newPage);
-                canvas.addImage(ImageDataFactory.create("src/bg.jpg"), PageSize.LETTER.rotate(), false);
+                canvas.addImage(ImageDataFactory.create("bg.jpg"), PageSize.LETTER.rotate(), false);
                 
                 //agregarHojaPDF(nombreCliente, oc, producto, medidas, cantidad, pallet, i);
                 
+                PdfCanvas canvas1 = new PdfCanvas(this.doc.getPdfDocument().getPage(i+1));
+                canvas1.addImage(ImageDataFactory.create("bg.jpg"), PageSize.LETTER.rotate(), false);
                 
                 
                 Paragraph p = new Paragraph("\t\t\tCLIENTE:   " + nombreCliente + "\n\n"
@@ -222,15 +225,12 @@ public class FXMLController implements Initializable
                         + "    MEDIDAS    : " + medidas + "\n\n"
                         + "  CANTIDAD : " + cantidad + "\n\n"
                         + "    PALLET      : " + pallet + "");
-                p.setFontSize(25);
+                p.setFontSize(28);
                 p.setFirstLineIndent(170);
                 p.setBold();
                 p.setPaddingLeft(80);
                 p.setPaddingTop(30);
                 doc.add(p);
-                
-                PdfCanvas canvas1 = new PdfCanvas(this.doc.getPdfDocument().getPage(i+1));
-                canvas1.addImage(ImageDataFactory.create("src/bg.jpg"), PageSize.LETTER.rotate(), false);
                 
                 doc.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                 
@@ -253,6 +253,7 @@ public class FXMLController implements Initializable
         pathLbl.setText(pathOut);
     }
     
+/*
     private void agregarHojaPDF(String cliente, String oc, String producto, 
             String medidas, String cantidad, String pallet, int i) throws FileNotFoundException, IOException
     {
@@ -276,4 +277,5 @@ public class FXMLController implements Initializable
         p.setPaddingTop(30);
         doc.add(p);
     }
+*/
 }
