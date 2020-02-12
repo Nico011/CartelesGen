@@ -1,14 +1,22 @@
 package com.mycompany.letrerosgen;
 
+import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.color.DeviceRgb;
 import com.itextpdf.kernel.events.PdfDocumentEvent;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import static com.itextpdf.kernel.pdf.PdfName.Image;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
+import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.border.Border;
+import com.itextpdf.layout.border.SolidBorder;
 import com.itextpdf.layout.element.AreaBreak;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
@@ -60,6 +68,9 @@ public class FXMLController implements Initializable
     String cantidad = "";
     String pallet = "";
     String pathOut;
+    
+    int fontSizeText = 30;
+    int fontSizeRes = 34;
     
     Document doc;
     PdfDocument pdfdoc;
@@ -140,6 +151,10 @@ public class FXMLController implements Initializable
         pdfdoc = new PdfDocument(pdfwr);
         doc = new Document(pdfdoc, PageSize.LETTER.rotate());
         
+                        
+        PdfFont negrita = PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD);
+        
+        com.itextpdf.kernel.color.Color myGreen = new DeviceRgb(71, 141, 43);
         
         
         //System.out.println("pdf creado");
@@ -210,27 +225,134 @@ public class FXMLController implements Initializable
                 
                 
                 
-                PdfCanvas canvas = new PdfCanvas(newPage);
-                canvas.addImage(ImageDataFactory.create("bg.jpg"), PageSize.LETTER.rotate(), false);
+                //PdfCanvas canvas = new PdfCanvas(newPage);
+                //canvas.addImage(ImageDataFactory.create("bg.jpg"), PageSize.LETTER.rotate(), false);
                 
                 //agregarHojaPDF(nombreCliente, oc, producto, medidas, cantidad, pallet, i);
                 
                 PdfCanvas canvas1 = new PdfCanvas(this.doc.getPdfDocument().getPage(i+1));
-                canvas1.addImage(ImageDataFactory.create("bg.jpg"), PageSize.LETTER.rotate(), false);
+                canvas1.addImage(ImageDataFactory.create("bg3.jpg"), PageSize.LETTER.rotate(), false);
                 
                 
-                Paragraph p = new Paragraph("\t\t\tCLIENTE:   " + nombreCliente + "\n\n"
-                        + "           O/C      : " + oc + "\n\n"
-                        + "  PRODUCTO : " + producto + "\n\n"
-                        + "    MEDIDAS    : " + medidas + "\n\n"
-                        + "  CANTIDAD : " + cantidad + "\n\n"
-                        + "    PALLET      : " + pallet + "");
-                p.setFontSize(28);
-                p.setFirstLineIndent(170);
-                p.setBold();
-                p.setPaddingLeft(80);
-                p.setPaddingTop(30);
-                doc.add(p);
+                //Paragraph pCliente = new Paragraph("CLIENTE");
+                //pCliente.setFont(negrita);
+                //pCliente.setFontSize(28);
+                
+                Paragraph resCliente = new Paragraph(this.nombreCliente);
+                resCliente.setFont(negrita);
+                resCliente.setFontSize(38);
+                resCliente.setUnderline();
+                
+                //new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(290, 480, 130, 80))
+                //        .add(pCliente);
+                new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(280, 460, 460, 130))
+                        .add(resCliente);
+                
+                //pCliente.setBorder(Border.NO_BORDER);
+                resCliente.setBorder(Border.NO_BORDER);
+                
+                
+                Paragraph pOC = new Paragraph("O/C");
+                pOC.setPaddingLeft(20);
+                pOC.setFont(negrita);
+                pOC.setFontSize(fontSizeText);
+                pOC.setFontColor(com.itextpdf.kernel.color.Color.WHITE);
+                pOC.setBackgroundColor(myGreen);
+                
+                Paragraph resOC = new Paragraph(this.oc);
+                resOC.setFont(negrita);
+                resOC.setPaddingLeft(15);
+                resOC.setFontSize(fontSizeRes);
+                
+                new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(65, 390, 200, 80))
+                        .add(pOC);
+                new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(265, 390, 500, 80))
+                        .add(resOC);
+                
+                pOC.setBorder(Border.NO_BORDER);
+                resOC.setBorder(Border.NO_BORDER);
+                
+                
+                Paragraph pProducto = new Paragraph("PRODUCTO");
+                pProducto.setPaddingLeft(10);
+                pProducto.setFont(negrita);
+                pProducto.setFontSize(fontSizeText);
+                pProducto.setFontColor(com.itextpdf.kernel.color.Color.WHITE);
+                pProducto.setBackgroundColor(myGreen);
+                
+                Paragraph resProducto = new Paragraph(this.producto);
+                resProducto.setFont(negrita);
+                resProducto.setFontSize(fontSizeRes);
+                resProducto.setPaddingLeft(15);
+                
+                new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(65, 300, 200, 80))
+                        .add(pProducto);
+                new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(265, 220, 500, 160))
+                        .add(resProducto);
+                
+                pProducto.setBorder(Border.NO_BORDER);
+                resProducto.setBorder(Border.NO_BORDER);
+                
+                Paragraph pMedidas = new Paragraph("MEDIDAS");
+                pMedidas.setPaddingLeft(20);
+                pMedidas.setFont(negrita);
+                pMedidas.setFontSize(fontSizeText);
+                pMedidas.setFontColor(com.itextpdf.kernel.color.Color.WHITE);
+                pMedidas.setBackgroundColor(myGreen);
+                
+                Paragraph resMedidas = new Paragraph(this.medidas);
+                resMedidas.setPaddingLeft(15);
+                resMedidas.setFont(negrita);
+                resMedidas.setFontSize(fontSizeRes);
+                
+                new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(65, 210, 200, 80))
+                        .add(pMedidas);
+                new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(265, 210, 500, 80))
+                        .add(resMedidas);
+                
+                pMedidas.setBorder(Border.NO_BORDER);
+                resMedidas.setBorder(Border.NO_BORDER);
+                
+                Paragraph pCantidad = new Paragraph("CANTIDAD");
+                pCantidad.setPaddingLeft(20);
+                pCantidad.setFont(negrita);
+                pCantidad.setFontSize(fontSizeText);
+                pCantidad.setBackgroundColor(myGreen);
+                pCantidad.setFontColor(com.itextpdf.kernel.color.Color.WHITE);
+                
+                Paragraph resCantidad = new Paragraph(this.cantidad);
+                resCantidad.setPaddingLeft(15);
+                resCantidad.setFont(negrita);
+                resCantidad.setFontSize(fontSizeRes);
+                
+                new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(65, 120, 200, 80))
+                        .add(pCantidad);
+                new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(265, 120, 500, 80))
+                        .add(resCantidad);
+                
+                pCantidad.setBorder(Border.NO_BORDER);
+                resCantidad.setBorder(Border.NO_BORDER);
+                
+                Paragraph pPallet = new Paragraph("PAQUETE");
+                pPallet.setPaddingLeft(20);
+                pPallet.setFont(negrita);
+                pPallet.setFontSize(fontSizeText);
+                pPallet.setFontColor(com.itextpdf.kernel.color.Color.WHITE);
+                pPallet.setBackgroundColor(myGreen);
+                
+                Paragraph resPallet = new Paragraph(this.pallet);
+                resPallet.setPaddingLeft(15);
+                resPallet.setFont(negrita);
+                resPallet.setFontSize(fontSizeRes);
+                
+                new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(65, 30, 200, 80))
+                        .add(pPallet);
+                new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(265, 30, 500, 80))
+                        .add(resPallet);
+                
+                pPallet.setBorder(Border.NO_BORDER);
+                resPallet.setBorder(Border.NO_BORDER);
+                
                 
                 doc.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                 
