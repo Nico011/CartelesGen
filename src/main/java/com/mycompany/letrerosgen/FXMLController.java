@@ -28,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -98,9 +99,11 @@ public class FXMLController implements Initializable
         //System.out.println(System.getProperty("user.dir"));
         String path = "";
         FileChooser fileChooser = new FileChooser();
+        String chooserPath = Paths.get(System.getProperty("user.dir")).toAbsolutePath().normalize().toString();
         fileChooser.getExtensionFilters().addAll( 
                 new FileChooser.ExtensionFilter("Excel Worksheet", "*.xlsx"),
                 new FileChooser.ExtensionFilter("Excel Worksheet", "*.xls"));
+        fileChooser.setInitialDirectory(new File(chooserPath)); 
         File selected = fileChooser.showOpenDialog(null);
         
         if(selected != null)
