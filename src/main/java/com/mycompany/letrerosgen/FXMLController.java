@@ -28,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -68,6 +69,7 @@ public class FXMLController implements Initializable
     String cantidad = "";
     String pallet = "";
     String pathOut;
+    String encabezado = "";
     
     int fontSizeText = 30;
     int fontSizeRes = 34;
@@ -98,9 +100,11 @@ public class FXMLController implements Initializable
         //System.out.println(System.getProperty("user.dir"));
         String path = "";
         FileChooser fileChooser = new FileChooser();
+        String chooserPath = Paths.get(System.getProperty("user.dir")).toAbsolutePath().normalize().toString();
         fileChooser.getExtensionFilters().addAll( 
                 new FileChooser.ExtensionFilter("Excel Worksheet", "*.xlsx"),
                 new FileChooser.ExtensionFilter("Excel Worksheet", "*.xls"));
+        fileChooser.setInitialDirectory(new File(chooserPath));
         File selected = fileChooser.showOpenDialog(null);
         
         if(selected != null)
@@ -189,15 +193,19 @@ public class FXMLController implements Initializable
                 //System.out.print(cellValue + "\t");
                 if(cellValue.trim().toUpperCase().equals("CLIENTE"))
                 {
+                    // nombreCliente toma el valor de la celda de la derecha
                     nombreCliente = dataFormatter.formatCellValue( row.getCell(cell.getColumnIndex() + 1) );
                     //System.out.println("nombre cliente: " + nombreCliente);
                 }
                 if(cellValue.trim().toUpperCase().equals("ORDEN DE COMPRA") || 
                         cellValue.trim().toUpperCase().equals("ORDEN COMPRA") ||
                         cellValue.trim().toUpperCase().equals("OC") || 
-                        cellValue.trim().toUpperCase().equals("O/C"))
+                        cellValue.trim().toUpperCase().equals("O/C") || 
+                        cellValue.trim().toUpperCase().contains("CODIGO") ||
+                        cellValue.trim().toUpperCase().contains("CÓDIGO"))
                 {
                     // en la fila siguiente empiezan los datos
+                    encabezado = cellValue.trim().toUpperCase();
                     empiezaDatos = true;
                 }
                 numcell++;
@@ -251,13 +259,27 @@ public class FXMLController implements Initializable
                 //pCliente.setBorder(Border.NO_BORDER);
                 resCliente.setBorder(Border.NO_BORDER);
                 
+                Paragraph pOC;
+                if(encabezado.toUpperCase().contains("CODIGO") ||
+                        encabezado.toUpperCase().contains("CÓDIGO"))
+                {
+                    pOC = new Paragraph("CÓDIGO");
+                    pOC.setPaddingLeft(20);
+                    pOC.setFont(negrita);
+                    pOC.setFontSize(fontSizeText);
+                    pOC.setFontColor(com.itextpdf.kernel.color.Color.WHITE);
+                    pOC.setBackgroundColor(myGreen);
+                }
+                else
+                {
+                    pOC = new Paragraph("O/C");
+                    pOC.setPaddingLeft(20);
+                    pOC.setFont(negrita);
+                    pOC.setFontSize(fontSizeText);
+                    pOC.setFontColor(com.itextpdf.kernel.color.Color.WHITE);
+                    pOC.setBackgroundColor(myGreen);
+                }
                 
-                Paragraph pOC = new Paragraph("O/C");
-                pOC.setPaddingLeft(20);
-                pOC.setFont(negrita);
-                pOC.setFontSize(fontSizeText);
-                pOC.setFontColor(com.itextpdf.kernel.color.Color.WHITE);
-                pOC.setBackgroundColor(myGreen);
                 
                 Paragraph resOC = new Paragraph(this.oc);
                 resOC.setFont(negrita);
@@ -333,7 +355,7 @@ public class FXMLController implements Initializable
                 pCantidad.setBorder(Border.NO_BORDER);
                 resCantidad.setBorder(Border.NO_BORDER);
                 
-                Paragraph pPallet = new Paragraph("PAQUETE");
+                Paragraph pPallet = new Paragraph("BODEGA");
                 pPallet.setPaddingLeft(20);
                 pPallet.setFont(negrita);
                 pPallet.setFontSize(fontSizeText);
@@ -345,9 +367,9 @@ public class FXMLController implements Initializable
                 resPallet.setFont(negrita);
                 resPallet.setFontSize(fontSizeRes);
                 
-                new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(65, 30, 200, 80))
+                new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(65, 40, 200, 80))
                         .add(pPallet);
-                new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(265, 30, 500, 80))
+                new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(265, 0, 500, 120))
                         .add(resPallet);
                 
                 pPallet.setBorder(Border.NO_BORDER);
