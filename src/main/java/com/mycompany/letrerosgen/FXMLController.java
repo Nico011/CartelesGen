@@ -20,7 +20,12 @@ import com.itextpdf.layout.border.SolidBorder;
 import com.itextpdf.layout.element.AreaBreak;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.layout.LayoutArea;
+import com.itextpdf.layout.layout.LayoutContext;
+import com.itextpdf.layout.layout.LayoutResult;
 import com.itextpdf.layout.property.AreaBreakType;
+import com.itextpdf.layout.renderer.DrawContext;
+import com.itextpdf.layout.renderer.IRenderer;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -73,6 +78,8 @@ public class FXMLController implements Initializable
     
     int fontSizeText = 30;
     int fontSizeRes = 34;
+    int prodFontSize = 34; 
+    int cliFontSize = 38; 
     
     Document doc;
     PdfDocument pdfdoc;
@@ -246,15 +253,48 @@ public class FXMLController implements Initializable
                 //pCliente.setFont(negrita);
                 //pCliente.setFontSize(28);
                 
+                Rectangle rectCli = new Rectangle(280, 460, 460, 130);
+                
                 Paragraph resCliente = new Paragraph(this.nombreCliente);
                 resCliente.setFont(negrita);
-                resCliente.setFontSize(38);
+                resCliente.setFontSize(cliFontSize);
                 resCliente.setUnderline();
+                
+                
+                
+                IRenderer pr1 = resCliente.createRendererSubTree().setParent(doc.getRenderer()); 
+                LayoutArea lr1 = new LayoutArea(1, rectCli); 
                 
                 //new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(290, 480, 130, 80))
                 //        .add(pCliente);
-                new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(280, 460, 460, 130))
-                        .add(resCliente);
+                //new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(280, 460, 460, 130))
+                //        .add(resCliente);
+                
+                float lFontSize = 0.0001f, rFontSize = cliFontSize; 
+ 
+                for(int j = 0; j < 100; j++) 
+                { 
+                    float mFontSize = (lFontSize + rFontSize) / 2; 
+                    resCliente.setFontSize(mFontSize); 
+                    LayoutResult res = pr1.layout(new LayoutContext(lr1)); 
+                    if (res.getStatus() == LayoutResult.FULL) 
+                    { 
+                        lFontSize = mFontSize; 
+                    } 
+                    else 
+                    { 
+                        rFontSize = mFontSize; 
+                    } 
+                } 
+                 
+                float finalFontSize = lFontSize; 
+                resCliente.setFontSize(finalFontSize); 
+                 
+                //resCliente.setPaddingLeft(15); 
+                 
+                pr1.layout(new LayoutContext(lr1)); 
+                pr1.draw(new DrawContext(pdfdoc, new PdfCanvas(pdfdoc.getPage(i + 1))));
+                
                 
                 //pCliente.setBorder(Border.NO_BORDER);
                 resCliente.setBorder(Border.NO_BORDER);
@@ -302,15 +342,48 @@ public class FXMLController implements Initializable
                 pProducto.setFontColor(com.itextpdf.kernel.color.Color.WHITE);
                 pProducto.setBackgroundColor(myGreen);
                 
+                
+                
+                Rectangle rectProd = new Rectangle(265, 300, 500, 80); 
+                
+                
                 Paragraph resProducto = new Paragraph(this.producto);
                 resProducto.setFont(negrita);
                 resProducto.setFontSize(fontSizeRes);
                 resProducto.setPaddingLeft(15);
                 
+                IRenderer pr = resProducto.createRendererSubTree().setParent(doc.getRenderer()); 
+                LayoutArea lr = new LayoutArea(1, rectProd); 
+                
+                float lFontSize1 = 0.0001f, rFontSize1 = prodFontSize; 
+ 
+                for(int j = 0; j < 100; j++) 
+                { 
+                    float mFontSize1 = (lFontSize1 + rFontSize1) / 2; 
+                    resProducto.setFontSize(mFontSize1); 
+                    LayoutResult res = pr.layout(new LayoutContext(lr)); 
+                    if (res.getStatus() == LayoutResult.FULL) 
+                    { 
+                        lFontSize1 = mFontSize1; 
+                    } 
+                    else 
+                    { 
+                        rFontSize1 = mFontSize1; 
+                    } 
+                } 
+                 
+                float finalFontSize1 = lFontSize1; 
+                resProducto.setFontSize(finalFontSize1); 
+                
+                pr.layout(new LayoutContext(lr)); 
+                pr.draw(new DrawContext(pdfdoc, new PdfCanvas(pdfdoc.getPage(i + 1)))); 
+                
+                
+                
                 new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(65, 300, 200, 80))
                         .add(pProducto);
-                new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(265, 220, 500, 160))
-                        .add(resProducto);
+//                new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(265, 220, 500, 160))
+//                        .add(resProducto);
                 
                 pProducto.setBorder(Border.NO_BORDER);
                 resProducto.setBorder(Border.NO_BORDER);
@@ -363,14 +436,46 @@ public class FXMLController implements Initializable
                 pPallet.setBackgroundColor(myGreen);
                 
                 Paragraph resPallet = new Paragraph(this.pallet);
+                
+                //Rectangle recPallet = new Rectangle(265, 0, 500, 120);
+                Rectangle recPallet = new Rectangle(265, 40, 500, 80);
+                                
+                IRenderer pr2 = resPallet.createRendererSubTree().setParent(doc.getRenderer()); 
+                LayoutArea lr2 = new LayoutArea(1, recPallet); 
+                
                 resPallet.setPaddingLeft(15);
                 resPallet.setFont(negrita);
-                resPallet.setFontSize(fontSizeRes);
+                
+                float lFontSize2 = 0.0001f, rFontSize2 = fontSizeRes; 
+ 
+                for(int j = 0; j < 100; j++) 
+                { 
+                    float mFontSize2 = (lFontSize2 + rFontSize2) / 2; 
+                    resPallet.setFontSize(mFontSize2); 
+                    LayoutResult res = pr2.layout(new LayoutContext(lr2)); 
+                    if (res.getStatus() == LayoutResult.FULL) 
+                    { 
+                        lFontSize2 = mFontSize2; 
+                    } 
+                    else 
+                    { 
+                        rFontSize2 = mFontSize2; 
+                    } 
+                } 
+                 
+                float finalFontSize2 = lFontSize2; 
+                resPallet.setFontSize(finalFontSize2); 
+                 
+                //resCliente.setPaddingLeft(15); 
+                 
+                pr2.layout(new LayoutContext(lr2)); 
+                pr2.draw(new DrawContext(pdfdoc, new PdfCanvas(pdfdoc.getPage(i + 1)))); 
+                
                 
                 new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(65, 40, 200, 80))
                         .add(pPallet);
-                new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(265, 0, 500, 120))
-                        .add(resPallet);
+//                new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(265, 0, 500, 120))
+//                        .add(resPallet);
                 
                 pPallet.setBorder(Border.NO_BORDER);
                 resPallet.setBorder(Border.NO_BORDER);
