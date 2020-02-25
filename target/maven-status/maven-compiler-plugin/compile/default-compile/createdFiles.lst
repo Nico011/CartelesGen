@@ -1,2 +1,5 @@
+com\mycompany\letrerosgen\LetrerosExportacion.class
 com\mycompany\letrerosgen\MainApp.class
 com\mycompany\letrerosgen\FXMLController.class
+com\mycompany\letrerosgen\LetrerosNacional.class
+com\mycompany\letrerosgen\FXMLController$1.class
