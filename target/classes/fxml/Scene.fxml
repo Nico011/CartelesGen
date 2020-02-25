@@ -45,7 +45,12 @@
          <center>
             <VBox alignment="CENTER" prefWidth="100.0" BorderPane.alignment="CENTER">
                <children>
-                  <ChoiceBox fx:id="selectorTipoLetrero" prefWidth="150.0" />
+                  <RadioButton fx:id="rdBttnNacional" mnemonicParsing="false" selected="true" text="Nacional">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="tipo" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton id="rdBttnExport" fx:id="rdBttnExport" mnemonicParsing="false" text="Exportación" toggleGroup="$tipo" />
                   <Pane prefHeight="20.0" prefWidth="200.0" />
                     <Button id="btn" fx:id="button" alignment="CENTER" contentDisplay="CENTER" onAction="#handleButtonAction" text="Abrir Documento..." />
                </children>

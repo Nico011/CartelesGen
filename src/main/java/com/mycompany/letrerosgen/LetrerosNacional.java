@@ -63,12 +63,13 @@ public class LetrerosNacional
     Document doc;
     PdfDocument pdfdoc;
     
-    public LetrerosNacional(Document doc, PdfDocument pdfdoc, String path,
+    public LetrerosNacional(Document doc, PdfDocument pdfdoc, String path, String pathOut,
             String cliente, String ocCod, String producto, String medidas, String cantidad, String bodega) throws IOException, InvalidFormatException
     {
         this.doc = doc;
         this.pdfdoc = pdfdoc;
         this.path = path;
+        this.pathOut = pathOut;
         this.nombreCliente = cliente;
         this.oc = ocCod;
         this.producto = producto;
@@ -421,5 +422,6 @@ public class LetrerosNacional
         
         doc.close();
         libro.close();
+        
     }
 }
