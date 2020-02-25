@@ -8,18 +8,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.stage.FileChooser;
@@ -123,8 +115,7 @@ public class FXMLController implements Initializable
                     System.out.println("Letreros nacionales");
                     
                     pathOut = System.getProperty("user.dir") + "\\Cartel despacho nacional.pdf";
-                    LetrerosNacional letrerosNacional = new LetrerosNacional(doc, pdfdoc, path, pathOut,
-                        nombreCliente, oc, producto, medidas, cantidad, pallet);
+                    LetrerosNacional letrerosNacional = new LetrerosNacional(doc, pdfdoc, path, pathOut);
                     this.guardadoEn.setText("Guardado en: ");
                     this.pathLbl.wrapTextProperty().setValue(true);
                     this.pathLbl.setText(pathOut);
@@ -132,9 +123,7 @@ public class FXMLController implements Initializable
                 if(rdBttnExport.isSelected())
                 {
                     pathOut = System.getProperty("user.dir") + "\\Cartel despacho exportación.pdf";
-                    System.out.println("letreros exportacion");
-                    LetrerosExportacion letrerosExportacion = new LetrerosExportacion(doc, pdfdoc, path, pathOut,
-                        nombreCliente, oc, producto, medidas, cantidad, pallet);
+                    LetrerosExportacion letrerosExportacion = new LetrerosExportacion(doc, pdfdoc, path, pathOut);
                     this.guardadoEn.setText("Guardado en: ");
                     this.pathLbl.wrapTextProperty().setValue(true);
                     this.pathLbl.setText(pathOut);

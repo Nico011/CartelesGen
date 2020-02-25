@@ -30,7 +30,6 @@ import com.itextpdf.layout.renderer.IRenderer;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import javafx.scene.control.Label;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
@@ -63,19 +62,12 @@ public class LetrerosNacional
     Document doc;
     PdfDocument pdfdoc;
     
-    public LetrerosNacional(Document doc, PdfDocument pdfdoc, String path, String pathOut,
-            String cliente, String ocCod, String producto, String medidas, String cantidad, String bodega) throws IOException, InvalidFormatException
+    public LetrerosNacional(Document doc, PdfDocument pdfdoc, String path, String pathOut) throws IOException, InvalidFormatException
     {
         this.doc = doc;
         this.pdfdoc = pdfdoc;
         this.path = path;
         this.pathOut = pathOut;
-        this.nombreCliente = cliente;
-        this.oc = ocCod;
-        this.producto = producto;
-        this.medidas = medidas;
-        this.cantidad = cantidad;
-        this.bodega = bodega;
         
         convertirCarteles(path);
     }
@@ -164,23 +156,11 @@ public class LetrerosNacional
                 this.cantidad = dataFormatter.formatCellValue(hoja.getRow(numrow+1).getCell(10));
                 this.bodega = dataFormatter.formatCellValue(hoja.getRow(numrow+1).getCell(11));
                 
-                //System.out.println(nombreCliente + ", " + oc + ", " + producto + ", " + medidas + ", " + cantidad + ", " + bodega);
-                //System.out.println("agregando linea numero: " + i);
-                
-                
-                
-                //PdfCanvas canvas = new PdfCanvas(newPage);
-                //canvas.addImage(ImageDataFactory.create("bg.jpg"), PageSize.LETTER.rotate(), false);
-                
-                //agregarHojaPDF(nombreCliente, oc, producto, medidas, cantidad, bodega, i);
                 
                 PdfCanvas canvas1 = new PdfCanvas(this.doc.getPdfDocument().getPage(i+1));
                 canvas1.addImage(ImageDataFactory.create("bg3.jpg"), PageSize.LETTER.rotate(), false);
                 
                 
-                //Paragraph pCliente = new Paragraph("CLIENTE");
-                //pCliente.setFont(negrita);
-                //pCliente.setFontSize(28);
                 
                 Rectangle rectCli = new Rectangle(280, 460, 460, 130);
                 
@@ -194,10 +174,6 @@ public class LetrerosNacional
                 IRenderer pr1 = resCliente.createRendererSubTree().setParent(doc.getRenderer()); 
                 LayoutArea lr1 = new LayoutArea(1, rectCli); 
                 
-                //new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(290, 480, 130, 80))
-                //        .add(pCliente);
-                //new Canvas(new PdfCanvas(pdfdoc.getPage(i + 1)), pdfdoc, new Rectangle(280, 460, 460, 130))
-                //        .add(resCliente);
                 
                 float lFontSize = 0.0001f, rFontSize = cliFontSize; 
  
@@ -219,13 +195,11 @@ public class LetrerosNacional
                 float finalFontSize = lFontSize; 
                 resCliente.setFontSize(finalFontSize); 
                  
-                //resCliente.setPaddingLeft(15); 
                  
                 pr1.layout(new LayoutContext(lr1)); 
                 pr1.draw(new DrawContext(pdfdoc, new PdfCanvas(pdfdoc.getPage(i + 1))));
                 
-                
-                //pCliente.setBorder(Border.NO_BORDER);
+               
                 resCliente.setBorder(Border.NO_BORDER);
                 
                 Paragraph pOC;
@@ -417,11 +391,11 @@ public class LetrerosNacional
             numrow++;
         }
         
+        libro.close();
         
         pdfdoc.removePage(doc.getPdfDocument().getLastPage());
         
         doc.close();
-        libro.close();
         
     }
 }
