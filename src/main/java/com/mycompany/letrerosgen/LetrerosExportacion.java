@@ -126,7 +126,9 @@ public class LetrerosExportacion
                 if(cellValue.trim().toUpperCase().equals("ORDEN DE COMPRA") || 
                         cellValue.trim().toUpperCase().equals("ORDEN COMPRA") ||
                         cellValue.trim().toUpperCase().equals("OC") || 
-                        cellValue.trim().toUpperCase().equals("O/C"))
+                        cellValue.trim().toUpperCase().equals("O/C") || 
+                        cellValue.trim().toUpperCase().contains("CODIGO") ||
+                        cellValue.trim().toUpperCase().contains("CÓDIGO"))
                 {
                     // en la fila siguiente empiezan los datos
                     empiezaDatos = true;
